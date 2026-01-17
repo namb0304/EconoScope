@@ -2,6 +2,9 @@ import { useState, useRef, useEffect } from 'react'
 import { useApp, SCENARIOS } from '../../contexts/AppContext'
 import type { ScenarioType } from '../../contexts/AppContext'
 
+// シナリオリストをコンポーネント外で定数化（再生成を防ぐ）
+const SCENARIO_LIST = Object.values(SCENARIOS)
+
 function Header() {
   const { started, scenario, currentStep, reset, goToStep, setScenario } = useApp()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -104,7 +107,7 @@ function Header() {
                         シナリオを変更
                       </span>
                     </div>
-                    {Object.values(SCENARIOS).map((s) => (
+                    {SCENARIO_LIST.map((s) => (
                       <button
                         key={s.id}
                         onClick={() => handleScenarioChange(s.id)}
