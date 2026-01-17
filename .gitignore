@@ -1,0 +1,26 @@
+# node
+node_modules/
+frontend/node_modules/
+
+# env
+.env
+
+# build
+dist/
+frontend/dist/
+
+# mac
+.DS_Store
+
+# python
+__pycache__/
+venv/
+
+# logs
+*.log
+
+# vscode
+.vscode/
+
+# python env (念のため)
+.env.*
