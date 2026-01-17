@@ -40,16 +40,15 @@ function Result() {
       <div className="max-w-6xl mx-auto px-4 py-12">
         <StepIndicator currentStep={3} />
 
-        {/* コンテキスト表示 */}
+        {/* 分析の問い表示 */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-4 px-6 py-3 bg-white dark:bg-gray-800 rounded-full shadow-sm border border-gray-200 dark:border-gray-700">
-            <span className="text-2xl">{selectedScenario.icon}</span>
-            <span className="text-gray-700 dark:text-gray-300 font-medium">
-              {selectedScenario.label}（n={selectedScenario.sampleSize}）
-            </span>
-            <span className="text-gray-400">|</span>
-            <span className="text-gray-600 dark:text-gray-400">
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 rounded-full shadow-sm border border-gray-200 dark:border-gray-700">
+            <span className="text-blue-600 dark:text-blue-400 font-medium">
               {selectedQuestion.label}
+            </span>
+            <span className="text-gray-400 dark:text-gray-500">―</span>
+            <span className="text-gray-600 dark:text-gray-400 text-sm">
+              {selectedQuestion.description}
             </span>
           </div>
         </div>
