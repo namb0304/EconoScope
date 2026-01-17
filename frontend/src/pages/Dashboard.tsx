@@ -1,14 +1,19 @@
 import Card from '../components/ui/Card'
+import UncertaintyChart from '../components/charts/UncertaintyChart'
+import SampleComparison from '../components/charts/SampleComparison'
+import { useAnalysisData } from '../hooks/useAnalysisData'
 
-// Mock data
+// Mock KPI data（将来的にはAPIから取得）
 const kpiData = [
-  { title: '平均スコア', value: '78.5', subtitle: '前月比 +2.3%' },
-  { title: 'サンプル数', value: '1,234', subtitle: '今月の登録数' },
-  { title: 'アクティブユーザー', value: '892', subtitle: '過去30日間' },
-  { title: '完了率', value: '94.2%', subtitle: '目標: 90%' },
+  { title: '平均スコア', value: '75.0', subtitle: '推定値' },
+  { title: 'サンプル数', value: '100', subtitle: '現在のデータ' },
+  { title: '標準偏差', value: '15.0', subtitle: '母集団推定' },
+  { title: '95%信頼区間', value: '±2.9', subtitle: '推定精度' },
 ]
 
 function Dashboard() {
+  const { comparisonData, currentEstimation } = useAnalysisData()
+
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
@@ -16,7 +21,7 @@ function Dashboard() {
           Dashboard
         </h2>
         <p className="mt-1 text-gray-500 dark:text-gray-400">
-          教育データの概要を確認できます
+          教育データの不確実性を可視化します
         </p>
       </div>
 
@@ -32,28 +37,39 @@ function Dashboard() {
         ))}
       </div>
 
-      {/* Chart Placeholder */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            スコア推移
-          </h3>
-          <div className="h-64 bg-gray-50 dark:bg-gray-700/50 rounded-lg flex items-center justify-center">
-            <p className="text-gray-400 dark:text-gray-500">
-              グラフ表示エリア
-            </p>
-          </div>
-        </div>
+      {/* Uncertainty Visualizations */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {/* 現在の推定結果 */}
+        <UncertaintyChart
+          data={currentEstimation}
+          title="現在の推定結果（n=100）"
+        />
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            カテゴリ別分布
-          </h3>
-          <div className="h-64 bg-gray-50 dark:bg-gray-700/50 rounded-lg flex items-center justify-center">
-            <p className="text-gray-400 dark:text-gray-500">
-              グラフ表示エリア
-            </p>
-          </div>
+        {/* サンプル数比較 */}
+        <SampleComparison data={comparisonData} />
+      </div>
+
+      {/* 補足説明 */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          このダッシュボードについて
+        </h3>
+        <div className="prose prose-sm dark:prose-invert max-w-none">
+          <p className="text-gray-600 dark:text-gray-300">
+            このダッシュボードは、学業成績データの統計的推論における
+            <strong>不確実性（Uncertainty）</strong>を可視化しています。
+          </p>
+          <ul className="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+            <li>
+              <strong>95%信頼区間</strong>: 真の平均値がこの範囲に含まれる確率が95%
+            </li>
+            <li>
+              <strong>サンプルサイズの影響</strong>: データ数が増えると推定の精度が向上
+            </li>
+            <li>
+              <strong>標準誤差</strong>: σ/√n で計算され、nが大きいほど小さくなる
+            </li>
+          </ul>
         </div>
       </div>
     </main>
