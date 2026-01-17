@@ -1,13 +1,19 @@
+import type { ReactNode } from 'react'
+import { cardStyles } from '../../lib/styles'
+
+/**
+ * KPI表示用のカードコンポーネント
+ */
 interface CardProps {
   title: string
   value: string | number
   subtitle?: string
-  icon?: React.ReactNode
+  icon?: ReactNode
 }
 
 function Card({ title, value, subtitle, icon }: CardProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <div className={cardStyles.full}>
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400">

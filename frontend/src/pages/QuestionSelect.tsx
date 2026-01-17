@@ -1,4 +1,4 @@
-import { useApp, QUESTIONS, SCENARIOS } from '../contexts/AppContext'
+import { useApp, QUESTIONS } from '../contexts/AppContext'
 import type { QuestionType } from '../contexts/AppContext'
 import StepIndicator from '../components/ui/StepIndicator'
 
@@ -7,39 +7,16 @@ import StepIndicator from '../components/ui/StepIndicator'
  * 「何を確かめたいですか？」
  */
 function QuestionSelect() {
-  const { scenario, setQuestion, goToStep } = useApp()
+  const { setQuestion } = useApp()
 
   const handleSelect = (questionId: QuestionType) => {
     setQuestion(questionId)
   }
 
-  const handleBack = () => {
-    goToStep(1)
-  }
-
-  // シナリオ未選択の場合のフォールバック
-  const selectedScenario = scenario ? SCENARIOS[scenario] : null
-
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <StepIndicator currentStep={2} />
-
-        {/* 選択中のシナリオ表示 */}
-        {selectedScenario && (
-          <div className="flex items-center justify-center gap-2 mb-8">
-            <span className="text-2xl">{selectedScenario.icon}</span>
-            <span className="text-gray-600 dark:text-gray-400">
-              {selectedScenario.label}（n={selectedScenario.sampleSize}）を選択中
-            </span>
-            <button
-              onClick={handleBack}
-              className="ml-2 text-sm text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              変更
-            </button>
-          </div>
-        )}
 
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">

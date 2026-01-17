@@ -1,4 +1,5 @@
 import type { EstimationResult } from '../../types/analysis'
+import { cardStyles } from '../../lib/styles'
 
 interface UncertaintyChartProps {
   data: EstimationResult
@@ -22,7 +23,7 @@ function UncertaintyChart({ data, title = '推定結果' }: UncertaintyChartProp
   const intervalWidth = upperPercent - lowerPercent
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <div className={cardStyles.full}>
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
         {title}
       </h3>

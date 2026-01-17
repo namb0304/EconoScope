@@ -1,24 +1,29 @@
+import { useCallback } from 'react'
 import type { SampleComparisonData } from '../../types/analysis'
+import { cardStyles } from '../../lib/styles'
 
 interface SampleComparisonProps {
   data: SampleComparisonData[]
 }
+
+// グラフの表示範囲（コンポーネント外で定義して再生成を防ぐ）
+const CHART_MIN = 50
+const CHART_MAX = 100
+const CHART_RANGE = CHART_MAX - CHART_MIN
 
 /**
  * サンプル数による不確実性の違いを比較表示するコンポーネント
  * 「サンプル数が増えると信頼区間が狭くなる」ことを直感的に示す
  */
 function SampleComparison({ data }: SampleComparisonProps) {
-  // グラフの表示範囲
-  const minValue = 50
-  const maxValue = 100
-  const range = maxValue - minValue
-
-  // パーセンテージ変換関数
-  const toPercent = (value: number) => ((value - minValue) / range) * 100
+  // パーセンテージ変換関数（メモ化）
+  const toPercent = useCallback(
+    (value: number) => ((value - CHART_MIN) / CHART_RANGE) * 100,
+    []
+  )
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <div className={cardStyles.full}>
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
         サンプル数と不確実性の関係
       </h3>
@@ -81,9 +86,9 @@ function SampleComparison({ data }: SampleComparisonProps) {
       <div className="flex items-center gap-4 mt-4">
         <div className="w-20" />
         <div className="flex-1 flex justify-between text-xs text-gray-400 dark:text-gray-500">
-          <span>{minValue}</span>
-          <span>{(minValue + maxValue) / 2}</span>
-          <span>{maxValue}</span>
+          <span>{CHART_MIN}</span>
+          <span>{(CHART_MIN + CHART_MAX) / 2}</span>
+          <span>{CHART_MAX}</span>
         </div>
         <div className="w-24" />
       </div>

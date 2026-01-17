@@ -27,7 +27,11 @@ export interface SampleComparisonData {
   estimation: EstimationResult
 }
 
-/** APIレスポンスの想定形式 */
+/**
+ * APIレスポンスの想定形式
+ * @todo バックエンドAPI連携時に使用予定
+ * 現在は未使用だが、将来のAPI実装時のスキーマとして保持
+ */
 export interface AnalysisResponse {
   /** 分析結果 */
   result: EstimationResult
