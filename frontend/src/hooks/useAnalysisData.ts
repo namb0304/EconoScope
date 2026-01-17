@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import type { EstimationResult, SampleComparisonData } from '../types/analysis'
 
 /**
@@ -9,7 +9,7 @@ import type { EstimationResult, SampleComparisonData } from '../types/analysis'
  * - 標準誤差 = 標準偏差 / √n
  * - サンプル数が増えると信頼区間が狭くなる（不確実性が減少）
  */
-function generateEstimation(sampleSize: number, trueMean = 75, trueStd = 15): EstimationResult {
+function createEstimation(sampleSize: number, trueMean = 75, trueStd = 15): EstimationResult {
   // サンプルサイズに応じた標準誤差を計算
   const standardError = trueStd / Math.sqrt(sampleSize)
 
@@ -37,18 +37,24 @@ export function useAnalysisData() {
   const comparisonData: SampleComparisonData[] = useMemo(() => {
     return sampleSizes.map((size) => ({
       label: `n=${size}`,
-      estimation: generateEstimation(size),
+      estimation: createEstimation(size),
     }))
   }, [])
 
   // 現在選択中のデータ（デフォルトはn=100）
   const currentEstimation = useMemo(() => {
-    return generateEstimation(100)
+    return createEstimation(100)
+  }, [])
+
+  // 任意のサンプルサイズで推定結果を生成する関数
+  const generateEstimation = useCallback((sampleSize: number) => {
+    return createEstimation(sampleSize)
   }, [])
 
   return {
     comparisonData,
     currentEstimation,
     sampleSizes,
+    generateEstimation,
   }
 }
